@@ -122,6 +122,8 @@ multiplayer_event_return_disallow_ranged_weapons              = 112
 adimi_tool_server_event                                       = 113
 adimi_tool_client_event                                       = 114
 adimi_tool_server_all_event                                   = 115
+#scuzzball
+scuzz_event_agent_set_slot												  = 116
 
 
 #multiplayer message types
@@ -240,8 +242,8 @@ multi_item_class_type_gloves_end = multi_item_class_type_glove + 1
 multi_troop_class_other = 0
 multi_troop_class_runner = 1
 multi_troop_class_spearman = 2
-multi_troop_class_cavalry = 3
-multi_troop_class_archer = 4
+multi_troop_class_enforcer = 3
+multi_troop_class_goalie = 4
 multi_troop_class_crossbowman = 5
 multi_troop_class_mounted_archer = 6
 multi_troop_class_mounted_crossbowman = 7

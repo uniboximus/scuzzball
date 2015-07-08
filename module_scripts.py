@@ -1305,6 +1305,7 @@ scripts = [
 	  
       (item_set_slot, "itm_throwing_axes", slot_item_multiplayer_item_class, multi_item_class_type_throwing_axe),
       (item_set_slot, "itm_light_throwing_axes", slot_item_multiplayer_item_class, multi_item_class_type_throwing_axe),
+      (item_set_slot, "itm_scuzzball", slot_item_multiplayer_item_class, multi_item_class_type_throwing_axe),
       (item_set_slot, "itm_heavy_throwing_axes", slot_item_multiplayer_item_class, multi_item_class_type_throwing_axe),
        #armors
       (item_set_slot, "itm_red_shirt", slot_item_multiplayer_item_class, multi_item_class_type_light_armor),
@@ -1469,6 +1470,10 @@ scripts = [
 
       #1-Swadian Warriors
       #1a-Swadian Crossbowman
+		
+      (call_script, "script_multiplayer_set_item_available_for_troop", "itm_scuzzball", "trp_swadian_runner_multiplayer"),
+      (call_script, "script_multiplayer_set_item_available_for_troop", "itm_scuzzball", "trp_vaegir_runner_multiplayer"),
+		
       (call_script, "script_multiplayer_set_item_available_for_troop", "itm_bolts", "trp_swadian_crossbowman_multiplayer"),
       (call_script, "script_multiplayer_set_item_available_for_troop", "itm_steel_bolts", "trp_swadian_crossbowman_multiplayer"),
       (call_script, "script_multiplayer_set_item_available_for_troop", "itm_crossbow", "trp_swadian_crossbowman_multiplayer"),
@@ -9145,6 +9150,17 @@ scripts = [
           #condition checks are done
           (player_set_slot, ":player_no", ":slot_no", ":value"),
         (try_end),
+		(else_try), # set an agent slot on the client, from the server
+        (eq, ":event_type", scuzz_event_agent_set_slot),
+        (store_script_param, ":agent_id", 3),
+        (store_script_param, ":slot_no", 4),
+        (store_script_param, ":value", 5),
+        (try_begin),
+          (agent_is_active, ":agent_id"),
+          (agent_equip_item, ":agent_id", ":value", ":slot_no"),
+			 (agent_set_wielded_item, ":agent_id", ":value"),
+			 
+        (try_end),
       (else_try),
         (eq, ":event_type", multiplayer_event_set_bot_selection),
         (store_script_param, ":slot_no", 3),
@@ -11648,14 +11664,14 @@ scripts = [
        (this_or_next|eq, ":troop_no", "trp_vaegir_archer_multiplayer"),
        (this_or_next|eq, ":troop_no", "trp_nord_archer_multiplayer"),
        (eq, ":troop_no", "trp_sarranid_archer_multiplayer"),
-       (assign, ":troop_class", multi_troop_class_archer),
+       (assign, ":troop_class", multi_troop_class_goalie),
      (else_try),
        (this_or_next|eq, ":troop_no", "trp_swadian_man_at_arms_multiplayer"),
        (this_or_next|eq, ":troop_no", "trp_nord_scout_multiplayer"),
        (this_or_next|eq, ":troop_no", "trp_rhodok_horseman_multiplayer"),
        (this_or_next|eq, ":troop_no", "trp_sarranid_mamluke_multiplayer"),
        (eq, ":troop_no", "trp_vaegir_horseman_multiplayer"),
-       (assign, ":troop_class", multi_troop_class_cavalry),
+       (assign, ":troop_class", multi_troop_class_enforcer),
      (else_try),
        (eq, ":troop_no", "trp_khergit_veteran_horse_archer_multiplayer"),
        (assign, ":troop_class", multi_troop_class_mounted_archer),
@@ -13642,13 +13658,13 @@ scripts = [
              (eq, ":item_class", multi_item_class_type_large_shield),
              (val_div, ":item_value", 2),
            (else_try),
-             (eq, ":player_troop_class", multi_troop_class_cavalry),
+             (eq, ":player_troop_class", multi_troop_class_enforcer),
              (this_or_next|eq, ":item_class", multi_item_class_type_lance),
              (this_or_next|eq, ":item_class", multi_item_class_type_sword),
              (eq, ":item_class", multi_item_class_type_horse),
              (val_div, ":item_value", 2),
            (else_try),
-             (eq, ":player_troop_class", multi_troop_class_archer),
+             (eq, ":player_troop_class", multi_troop_class_goalie),
              (this_or_next|eq, ":item_class", multi_item_class_type_bow),
              (eq, ":item_class", multi_item_class_type_arrow),
              (val_div, ":item_value", 2),
@@ -48694,7 +48710,7 @@ scripts = [
       (call_script,"script_adimi_tool_server_message_to_admin"),
       (assign,":send_string",2),#No result message
     (else_try),
-      (eq,":typ",adimi_tool_spawn_item),
+      (eq,":typ",adimi_tool_spawn_item), #SCUZZBALL
 	  (this_or_next|player_slot_eq,":admin_player_id",adimi_tool_admin_level_high,1),
       (player_is_admin, ":admin_player_id"),
       #value_1 = Player ID
@@ -49421,7 +49437,7 @@ scripts = [
     (try_end),
   ]),
   
-  ("adimi_tool_spawn_equip",
+  ("adimi_tool_spawn_equip", #scuzzball2
   [
     (store_script_param,":value_1",1),
     (store_script_param,":value_2",2),
@@ -51452,7 +51468,7 @@ scripts = [
        (this_or_next|eq, ":troop_no", "trp_vaegir_goalie_multiplayer"),
 	   (this_or_next|eq, ":troop_no", "trp_swadian_goalie_multiplayer"),
        (eq, ":troop_no", "trp_sarranid_archer_multiplayer"),
-       (assign, ":troop_class", multi_troop_class_archer),
+       (assign, ":troop_class", multi_troop_class_goalie),
      (else_try),
        (this_or_next|eq, ":troop_no", "trp_swadian_man_at_arms_multiplayer"),
        (this_or_next|eq, ":troop_no", "trp_nord_scout_multiplayer"),
@@ -51460,7 +51476,7 @@ scripts = [
        (this_or_next|eq, ":troop_no", "trp_vaegir_enforcer_multiplayer"),
 	   (this_or_next|eq, ":troop_no", "trp_swadian_enforcer_multiplayer"),
        (eq, ":troop_no", "trp_vaegir_horseman_multiplayer"),
-       (assign, ":troop_class", multi_troop_class_cavalry),
+       (assign, ":troop_class", multi_troop_class_enforcer),
      (else_try),
        (this_or_next|eq, ":troop_no", "trp_swadian_infantry_multiplayer"),
        (this_or_next|eq, ":troop_no", "trp_sarranid_footman_multiplayer"),
@@ -51526,12 +51542,12 @@ scripts = [
 		(assign,":troop_is_avaliable",0),
 	  (else_try),
 	    (is_between,"$adimi_tool_archer_limit_value",0,100),
-	    (eq,":troop_class",multi_troop_class_archer),
+	    (eq,":troop_class",multi_troop_class_goalie),
 		(ge,":variable_to_check_for","$adimi_tool_archer_limit_value"),
 		(assign,":troop_is_avaliable",0),
 	  (else_try),
 	    (is_between,"$adimi_tool_cav_limit_value",0,100),
-	    (eq,":troop_class",multi_troop_class_cavalry),
+	    (eq,":troop_class",multi_troop_class_enforcer),
 		(ge,":variable_to_check_for","$adimi_tool_cav_limit_value"),
 		(assign,":troop_is_avaliable",0),
 	  (try_end),
@@ -52209,10 +52225,10 @@ scripts = [
 		(assign,":troop_class",reg0),
 		(eq,":troop_class",multi_troop_class_runner),
 			(agent_set_speed_modifier, ":agent", 200),
-		(eq,":troop_class",multi_troop_class_archer),
-			(agent_set_speed_modifier, ":agent", 200),
-		(eq,":troop_class",multi_troop_class_cavalry),
-			(agent_set_speed_modifier, ":agent", 200),
+		(eq,":troop_class",multi_troop_class_goalie),
+			(agent_set_speed_modifier, ":agent", 120),
+		(eq,":troop_class",multi_troop_class_enforcer),
+			(agent_set_speed_modifier, ":agent", 120),
 		
     (try_end),
 	]),
