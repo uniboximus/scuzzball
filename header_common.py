@@ -124,6 +124,7 @@ adimi_tool_client_event                                       = 114
 adimi_tool_server_all_event                                   = 115
 #scuzzball
 scuzz_event_agent_set_slot												  = 116
+scuzz_event_client_set_slot											  = 117
 
 
 #multiplayer message types

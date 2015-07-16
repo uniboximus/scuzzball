@@ -374,7 +374,6 @@ adimi_tool_spawn_agent_trigger = (ti_on_agent_spawn, 0, 0, [(multiplayer_is_serv
         (store_trigger_param_1,":agent_no"),
         (call_script,"script_adimi_tool_check_respawn_agent",":agent_no"),
         (call_script,"script_adimi_tool_anti_kicking",":agent_no"),
-         (call_script, "script_cf_scuzzball_speed_modifier", ":agent_no"),
          ])
 
 adimi_tool_rainfall_rain_trigger = (1, 0, 0, [(multiplayer_is_server),(this_or_next|eq,"$adimi_tool_rainfall_typ",1),(eq,"$adimi_tool_rainfall_typ",3),],
@@ -792,86 +791,13 @@ adimi_tool_fade_out_stay_horses = [
 		
 		
 scuzzball_pass =	[(ti_on_agent_hit, 0, 0, [(eq,1,1)], [
-					(store_trigger_param_1, ":haid"), 
+					(store_trigger_param_1, ":haid"), #victim
 					(store_trigger_param_2, ":daid"), #dealer
 					#(store_trigger_param_3, ":damage"),
 					(assign, ":item", reg0),
-					
 					(try_begin),
-						(agent_get_player_id,":hpid",":haid"),
-						(agent_get_player_id,":dpid",":daid"),
-						(try_begin),
-							(multiplayer_is_server),
-							(neq, ":dpid", ":hpid"),
-							(eq, ":item", 540),
-								(str_store_player_username,s34,":hpid"),
-								(str_store_player_username,s35,":dpid"),
-								(server_add_message_to_log, "@{s35} passed to {s34}."),
-								(multiplayer_send_3_int_to_server, ":hpid", scuzz_event_agent_set_slot, ":haid", 4, 540),
-       #(str_store_string,s1,"str_adimi_tool_antitk_auto_warning"),
-       #(multiplayer_send_string_to_player,":dpid",multiplayer_event_show_server_message,s1),  
-						(try_end),
+					
 					(try_end),
-								
-								
-							#(agent_equip_item,":haid","itm_spear", 1),
-		# (player_add_spawn_item, ":haid", "itm_spear",1),
-		#					(display_message, "str_cannot_leave_now"),
-							
-							
-#							(try_begin),
-#								(eq, "$m_bhs",0), #KILL
-#								(agent_deliver_damage_to_agent,":hpid",":hpid",9999),
-#								(str_store_string, s8, "@Kill"),
-#							(else_try),
-#								(eq, "$m_bhs",1), #KICK
-#								(kick_player, ":hpid"),
-#								(str_store_string, s8, "@Kick"),
-#							(else_try),
-#								(eq, "$m_bhs",2), #TEMP BAN
-#								(ban_player, ":hpid", 1, ":dpid"),
-#								(str_store_string, s8, "@Temp Ban"),
-#							(else_try),
-#								(eq, "$m_bhs",3), #BAN
-#								(ban_player, ":hpid", 0, ":dpid"),
-#								(str_store_string, s8, "@Ban"),
-#							(try_end),
-#							
-	#						(set_trigger_result, 0),
-		#(agent_get_position,pos1,":haid"),
-      #(position_get_x,":x",pos1),
-      #(position_get_y,":y",pos1),
-      #(position_get_z,":z",pos1),
-      #(player_set_slot,":hpid",adimi_tool_respawn_x,":x"),
-      #(player_set_slot,":hpid",adimi_tool_respawn_y,":y"),
-      #(player_set_slot,":hpid",adimi_tool_respawn_z,":z"),
-      #(player_set_slot,":hpid",adimi_tool_rdy_for_respawning,1),
-      #(agent_fade_out,":haid"),
-      #(player_spawn_new_agent, ":hpid"),
-		#				(try_end),
-						
-						#teamwounding
-#						(try_begin),
-#							(multiplayer_is_server),
-#							(neq, "$g_multiplayer_game_type", multiplayer_game_type_deathmatch),
-#							(ge, ":dpid", 0),
-#							(ge, ":hpid", 0),
-#							(player_get_team_no, ":dTeam", ":dpid"),
-#							(player_get_team_no, ":hTeam", ":hpid"),
-#							(neq, ":dpid", ":hpid"),
-#							(eq, ":dTeam", ":hTeam"),
-#							(player_get_slot,":td",":dpid",madmin_pslt_tw),
-#							(val_add, ":td", ":damage"),
-#							(player_set_slot,":dpid",madmin_pslt_tw, ":td"),
-#							
-#							(try_begin),
-#								(ge,":td","$m_tw_limit"),
-#								(player_set_slot,":dpid",madmin_pslt_tw, 0),
-#								(server_add_message_to_log, "@{s5} was auto-kicked for teamwounding."),
-#								#(kick_player, ":dpid"),
-#								(call_script, "script_mad_kick_or_ban", ":dpid"),
-#							(try_end),
-#						(try_end),
 				])]
 
 adimi_tool_all_gamemodes = [adimi_tool_server_message, adimi_tool_immortal_loop,adimi_tool_mute_loop,adimi_tool_get_admins_with_admin_level, adimi_tool_reset_admins_with_admin_level, adimi_tool_crash_server_trigger, adimi_tool_spawn_agent_trigger,adimi_tool_pickup_food, adimi_tool_rainfall_snow_trigger, adimi_tool_rainfall_rain_trigger,adimi_tool_replace_scene_items_after, adimi_tool_drowning,adimi_tool_welcome_message, adimi_tool_exit_trigger, adimi_tool_wall_of_death, adimi_tool_teleport_key_pressed, adimi_tool_teleport_start, adimi_tool_class_limit,adimi_tool_dev_mode, adimi_tool_admin_chats]

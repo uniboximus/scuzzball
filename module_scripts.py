@@ -7973,7 +7973,6 @@ scripts = [
        (agent_is_non_player, ":agent_no"),
        (assign, "$g_multiplayer_ready_for_spawning_agent", 1),
      (try_end),
-	  #(call_script, "script_scuzzball_speed_modifier", ":agent_no"),
      ]),
 
   #script_multiplayer_server_player_joined_common
@@ -9149,17 +9148,6 @@ scripts = [
           (eq, ":valid_item", 1),
           #condition checks are done
           (player_set_slot, ":player_no", ":slot_no", ":value"),
-        (try_end),
-		(else_try), # set an agent slot on the client, from the server
-        (eq, ":event_type", scuzz_event_agent_set_slot),
-        (store_script_param, ":agent_id", 3),
-        (store_script_param, ":slot_no", 4),
-        (store_script_param, ":value", 5),
-        (try_begin),
-          (agent_is_active, ":agent_id"),
-          (agent_equip_item, ":agent_id", ":value", ":slot_no"),
-			 (agent_set_wielded_item, ":agent_id", ":value"),
-			 
         (try_end),
       (else_try),
         (eq, ":event_type", multiplayer_event_set_bot_selection),
@@ -10491,6 +10479,7 @@ scripts = [
           (call_script,"script_adimi_tool_server_message"),
           #Adimi Tools End
         (try_end),
+		  
       (else_try),
         ###############
         #CLIENT EVENTS#
@@ -52211,28 +52200,7 @@ scripts = [
       (try_end),
 	(try_end),
      ]),
-	  
-	("cf_scuzzball_speed_modifier",
-	 [
-   (store_script_param, ":agent", 1),
-	(display_message, "@{!}DEBUG -- SPEED MODIFIEd"),
-    (try_begin),
-	  (agent_is_active,":agent"),
-	  (agent_is_alive,":agent"),
-	  (agent_is_human,":agent"),
-		(multiplayer_get_my_troop, ":troop_no"),
-		(call_script,"script_adimi_tool_get_troop_class",":troop_no"),
-		(assign,":troop_class",reg0),
-		(eq,":troop_class",multi_troop_class_runner),
-			(agent_set_speed_modifier, ":agent", 200),
-		(eq,":troop_class",multi_troop_class_goalie),
-			(agent_set_speed_modifier, ":agent", 120),
-		(eq,":troop_class",multi_troop_class_enforcer),
-			(agent_set_speed_modifier, ":agent", 120),
-		
-    (try_end),
-	]),
-	 
+	   
 	 
 	("adimi_tool_siege_team_switch_after_round",#Respawn after round end (siege/battle)
     [
